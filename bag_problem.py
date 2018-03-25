@@ -1,4 +1,5 @@
 from random import choice
+from random import randint
 
 class bag_problem:
     _weights = []
@@ -9,7 +10,7 @@ class bag_problem:
     # construtor
     def __init__(self, nitens, nbags, w, c):
 
-        # Para o número de bolsas passado, alocar a lista knaps[0..nknaps]
+        # Para o número de bolsas passado, alocar a lista bags[0..nbags]
         for i in range(nbags):
             self._bags.append(0)
         # Inicia as listas de pesos e capacidades
@@ -35,11 +36,22 @@ class bag_problem:
         # Calcula o leftSpace
         self.left_space()
 
-    # Aloca os itens nas bolsas de forma que _items[i] indica o indice da bolsa alocada do item i
+    # Aloca randomicamente os itens nas bolsas
     def allocate(self, n_items):
+        self._items = []
         for i in range(n_items):
             self._items.append(choice(range(len(self._bags))))
+        # nao deu pra pagar
+        self.r_desallocate()
+
         return self._items
+    # Desaloca randomicamente até 30% dos itens das bolsas
+    def r_desallocate(self):
+        a = randint(1, round(len(self._items) * 0.3))
+        for i in range(a):
+            self._items[randint(0, len(self._items) - 1)] = -1
+        self.get_bags_w()
+        self.left_space()
 
     # Retorna a diferença capacidade - peso.atual
     def left_space(self):
@@ -67,35 +79,6 @@ class bag_problem:
             if i<0:
                 return False
         return True
-    #
-    def correct(self):
-        for i in range(len(self._ls)):
-            if self._ls[i] < 0:
-                self.unload(i)
-
-    def unload(self, bag):
-        while self._ls[bag] < 0:
-            aux = []
-            for i in range(len(self._items)):
-                if self._items[i] == bag:
-                    aux.append(i)
-            for j in aux:
-                if self._weights[j] > self.get_medium():
-                    self._items[j]=-1
-                    self.get_bags_w()
-                    self.left_space()
-
-
-    def get_medium(self):
-        a=0
-        b=0
-        for i in range(len(self._items)):
-            a += (self._items[i]+1) * self._weights[i]
-        for j in self._items:
-            b += (j+1)
-        return a / b
-
-
 
     # GETS E SETS
     def get_items(self):
@@ -108,3 +91,38 @@ class bag_problem:
         return self._capacities
     def get_ls(self):
         return self._ls
+
+
+    #   [ NÃO USADO ]
+    # # Corrije a sobrecarga nas bolsas
+    # def correct(self):
+    #     for i in range(len(self._ls)):
+    #         if self._ls[i] < 0:
+    #             self.unload(i)
+    #
+    # # Descarrega as bolsas que excedem o limite da capacidade
+    # # Descarrega os itens que tem peso acima da média
+    # def unload(self, bag):
+    #     while self._ls[bag] < 0:
+    #         aux = []
+    #         for i in range(len(self._items)):
+    #             if self._items[i] == bag:
+    #                 aux.append(i)
+    #         for j in aux:
+    #             self._items[choice(aux)] = -1
+    #             self.get_bags_w()
+    #             self.left_space()
+    #             # if self._weights[j] > self.get_medium():
+    #             #     self._items[j]=-1
+    #             #     self.get_bags_w()
+    #             #     self.left_space()
+    #
+    # # Calcula a média ponderada dos pesos nas bolsas
+    # def get_medium(self):
+    #     a=0
+    #     b=0
+    #     for i in range(len(self._items)):
+    #         a += (self._items[i]+1) * self._weights[i]
+    #     for j in self._items:
+    #         b += (j+1)
+    #     return a / b
