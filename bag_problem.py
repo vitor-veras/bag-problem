@@ -7,10 +7,10 @@ class bag_problem:
     _bags=[]
     _ls=[]
     # construtor
-    def __init__(self, nitens, nknaps, w, c):
+    def __init__(self, nitens, nbags, w, c):
 
         # Para o número de bolsas passado, alocar a lista knaps[0..nknaps]
-        for i in range(nknaps):
+        for i in range(nbags):
             self._bags.append(0)
         # Inicia as listas de pesos e capacidades
         # _weights=[w0,w1..wN) - onde n é o número de itens e w é escolhido aleatoriamente da lista de w passada
@@ -19,7 +19,7 @@ class bag_problem:
             self._weights.append(choice(w))
 
         aux = c
-        for i in range(nknaps):
+        for i in range(nbags):
             # aux é uma copia da lista de capacidades
             # Escolhe um valor de capacidade
             r = choice(aux)
@@ -33,7 +33,7 @@ class bag_problem:
         # Calcula o peso atual das bolsas
         self.get_bags_w()
         # Calcula o leftSpace
-        self.leftSpace()
+        self.left_space()
 
     # Aloca os itens nas bolsas de forma que _items[i] indica o indice da bolsa alocada do item i
     def allocate(self, n_items):
@@ -42,14 +42,16 @@ class bag_problem:
         return self._items
 
     # Retorna a diferença capacidade - peso.atual
-    def leftSpace(self):
+    def left_space(self):
+        self._ls = []
         for i in range(len(self._bags)):
             delta = (self._capacities[i]) - (self._bags[i])
             self._ls.append(delta)
 
-
     # Preenche _bags com a soma dos pesos dos itens
     def get_bags_w(self):
+        for i in range(len(self._bags)):
+            self._bags[i]=0
         for i in range(len(self._bags)):
             for j in range(len(self._items)):
                 if (self._items[j] == i):
@@ -60,11 +62,39 @@ class bag_problem:
     # Verifica se os parametros gerados são validos
     # Condições de violação
     # - _knaps[i] > _capacities[i]
-    def isValid(self):
+    def is_valid(self):
         for i in self._ls:
             if i<0:
                 return False
         return True
+    #
+    def correct(self):
+        for i in range(len(self._ls)):
+            if self._ls[i] < 0:
+                self.unload(i)
+
+    def unload(self, bag):
+        while self._ls[bag] < 0:
+            aux = []
+            for i in range(len(self._items)):
+                if self._items[i] == bag:
+                    aux.append(i)
+            for j in aux:
+                if self._weights[j] > self.get_medium():
+                    self._items[j]=-1
+                    self.get_bags_w()
+                    self.left_space()
+
+
+    def get_medium(self):
+        a=0
+        b=0
+        for i in range(len(self._items)):
+            a += (self._items[i]+1) * self._weights[i]
+        for j in self._items:
+            b += (j+1)
+        return a / b
+
 
 
     # GETS E SETS
@@ -76,3 +106,5 @@ class bag_problem:
         return self._bags
     def get_capacities(self):
         return self._capacities
+    def get_ls(self):
+        return self._ls
