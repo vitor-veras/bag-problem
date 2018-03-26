@@ -3,6 +3,7 @@ from random import randint
 
 
 class BagProblem:
+
     _weights = []
     _capacities = []
     _items = []
@@ -56,7 +57,7 @@ class BagProblem:
         # nao deu pra pagar
         self.r_desallocate()
         self.recalculate()
-        return self._items
+        return self.get_items()
 
     # Desaloca randomicamente até 30% dos itens das bolsas
     def r_desallocate(self):
@@ -102,6 +103,12 @@ class BagProblem:
 
     def get_ls(self):
         return self._ls
+
+    def get_num_items(self):
+        return len(self._weights)
+
+    def get_num_bags(self):
+        return len(self._capacities)
 
     #   [ NÃO USADO ]
 

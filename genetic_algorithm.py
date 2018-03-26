@@ -2,31 +2,30 @@
 from random import random
 from bag_problem import BagProblem
 
-# bag params
-n_items = 5
-n_bags = 3
-w = [1, 3, 5, 7, 11, 13, 17, 19]
-c = [23, 29, 31, 37, 41, 43, 47]
-k = BagProblem(n_items, n_bags, w, c)
 
 # GA params
-n_ind_pop = 5
 
 
 class GeneticAlgorithm:
     _population = []
-    _bp = BagProblem(n_items, n_bags, w, c)
 
-    def __init__(self):
-        self.init_population(n_ind_pop)
+    def __init__(self, problem, pop_number):
+        self._p = problem
+        self._population = self.init_population(pop_number)
 
     def init_population(self, n_ind):
+        population = []
+        nc = self._p.__class__
         for i in range(n_ind):
-            new_ind = self._bp.allocate(n_items)
-            self._population.append(new_ind)
+            population.append(nc)
+        for i in range(len(population)):
+            population[i].allocate(self._p, self._p.get_num_items())
+            print(population[i])
+        return population
 
     def print_population(self):
-        print(self._population)
+        for i in range(len(self._population)):
+            print(self._population[i].get_items(self._p))
 
 # def genetic_algorithm(population, fitness, chromossome, f_thres=None, ngen=1000, p_mut=0.1):
 #     for i in range(ngen):
