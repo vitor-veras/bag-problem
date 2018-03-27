@@ -1,14 +1,15 @@
 
 from hc.heuristic import Heuristic
 from hc.neighbor import Neighbor
-from hc.utils import Generate, Utils
+from hc.utils import Utils
 from hc.hill_climbing import HillClimbing
+from hc.bag_problem import BagProblem
 
 
 def main():
     #initialState = [[29, 23], [[1, 1], [19, 2], [17, 2], [13, 0], [19, 1]]]
 
-    initialState = Generate(nBag=3, nItem=30).initState()
+    initialState = BagProblem(nBag=3, nItem=30).initState()
     print("Bags: ", initialState[0], " | Weights: ", initialState[1])
 
     #h = Heuristic(initialState)

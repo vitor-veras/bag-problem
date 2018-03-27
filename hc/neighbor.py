@@ -11,7 +11,7 @@ class Neighbor(object):
         self.bagState = state[0]
         self.itemState = state[1]
 
-    def generateState2(self):
+    def generateState(self):
 
         newState = copy.deepcopy(self.state)
         nBagState = newState[0]
@@ -23,32 +23,7 @@ class Neighbor(object):
                 index = random.randint(0,(len(nItemState) -1))
 
                 if (len(nBagState)) == nItemState[index][1] and \
-                        Heuristic(newState).bagWeight2(i, nItemState[index][0]):
+                        Heuristic(newState).bagWeight(i, nItemState[index][0]):
                     nItemState[index][1] = i
-
-        return newState
-
-
-
-
-
-    def generateState(self):
-        itemState = self.state[1]
-
-        newState = copy.deepcopy(self.state)
-
-        nChange = len(itemState) / random.randint(1, len(itemState)/2)
-
-        itemChange = [] #itens que irão mudar
-
-        for i in range(nChange):
-            rn = random.randint(0, len(itemState) - 1)
-            while rn in itemChange:
-                rn = random.randint(0, len(itemState) - 1)
-
-            itemChange.append(rn)
-
-        for i in range(len(itemChange)):
-            newState[1][itemChange[i]][1] = random.randint(0,len(self.state[0]))
 
         return newState

@@ -2,9 +2,10 @@
 
 # Algoritmo HillClimbing adaptado de : https://en.wikipedia.org/wiki/Hill_climbing
 
-from heuristic import Heuristic
-from neighbor import Neighbor
-from utils import Generate
+from hc.heuristic import Heuristic
+from hc.neighbor import Neighbor
+from hc.bag_problem import BagProblem
+
 import copy
 
 class HillClimbing(object):
@@ -20,16 +21,16 @@ class HillClimbing(object):
 
         i = 0
         while i < self.iterate:
-            newState = Neighbor(Generate().desalloc(currentState)).generateState2()
+            newState = Neighbor(BagProblem().desalloc(currentState)).generateState()
             nextEval = Heuristic(newState).count()
-            print "CurrentEval : %s | NextEval : %s" % (currentEval, nextEval)
+            #print "CurrentEval : %s | NextEval : %s" % (currentEval, nextEval)
             #print "CurrentState : %s" % currentState[1]
-            print "newState : %s" % newState[1]
+            #print "newState : %s" % newState[1]
             if nextEval > currentEval :
                 currentState = copy.deepcopy(newState)
                 currentEval = nextEval
 
             i += 1
 
-        print "CurrentState ", currentState
+        #print "CurrentState ", currentState
         return currentState
