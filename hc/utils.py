@@ -39,7 +39,7 @@ class Generate(object):
         return newState
 
 
-class Utils:
+class Utils(object):
     st = []
 
     def __init__(self, state):

@@ -1,4 +1,5 @@
-# Genetic Algorithm
+# -*- coding: utf-8 -*-
+
 from random import random
 from bag_problem import BagProblem
 
@@ -17,12 +18,19 @@ class GeneticAlgorithm:
         population = []
         nc = self._p.__class__
         for i in range(n_ind):
+<<<<<<< Updated upstream
             population.append(nc)
         for i in range(len(population)):
             population[i].allocate(self._p, self._p.get_num_items())
             print(population[i])
         return population
+=======
+            new_ind = self._bp.allocate(n_items)
 
+            self._population.append(new_ind)
+>>>>>>> Stashed changes
+
+        return self._population
     def print_population(self):
         for i in range(len(self._population)):
             print(self._population[i].get_items(self._p))
