@@ -6,14 +6,13 @@ from random import randint
 
 class BagProblem:
 
-    _weights = []
-    _capacities = []
-    _items = []
-    _bags = []
-    _ls = []
-
     # construtor
     def __init__(self, nitens, nbags, w, c):
+        self._weights = []
+        self._capacities = []
+        self._items = []
+        self._bags = []
+        self._ls = []
 
         # Inicia: _bags com 0 e _ls com 0
         for i in range(nbags):
@@ -41,6 +40,18 @@ class BagProblem:
         # Aloca os itens nas bolsas
         self.allocate(nitens)
 
+
+    # Aloca randomicamente os itens nas bolsas
+
+    def allocate(self, n_items):
+        for i in range(n_items):
+            self._items[i] = choice(range(len(self._bags)))
+            # self._items.append(choice(range(len(self._bags))))
+        # nao deu pra pagar
+        self.r_desallocate()
+        self.recalculate()
+        return self.get_items()
+
     # Recalcula os pesos e o left_space
     def recalculate(self):
         self._bags = []
@@ -50,16 +61,6 @@ class BagProblem:
             self._ls.append(0)
         self.get_bags_w()
         self.left_space()
-
-    # Aloca randomicamente os itens nas bolsas
-    def allocate(self, n_items):
-        for i in range(n_items):
-            self._items[i] = choice(range(len(self._bags)))
-            # self._items.append(choice(range(len(self._bags))))
-        # nao deu pra pagar
-        self.r_desallocate()
-        self.recalculate()
-        return self.get_items()
 
     # Desaloca randomicamente até 30% dos itens das bolsas
     def r_desallocate(self):

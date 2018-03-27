@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import random
 import copy
-from heuristic import Heuristic
+from local_searchs.heuristic import Heuristic
+
+
 class Neighbor(object):
 
 

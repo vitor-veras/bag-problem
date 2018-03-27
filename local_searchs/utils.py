@@ -17,8 +17,8 @@ class Utils(object):
             outBag.append(i[0])
 
         for i in range(len(bags)):
-            print 'Bag {} = {} | Max Vol. = {} , Allocated = {}'.format(i+1, bags[i], self.st[0][i], sum(bags[i]))
-        print 'Items out of bags: {}'.format(outBag)
+            print('Bag {} = {} | Max Vol. = {} , Allocated = {}'.format(i+1, bags[i], self.st[0][i], sum(bags[i])))
+        print('Items out of bags: {}'.format(outBag))
 
     def BagsList(self, size):
         bags = list()
