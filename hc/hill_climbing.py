@@ -14,23 +14,29 @@ class HillClimbing(object):
         self.startState = startState
 
 
-    def hill(self):
+    def hill_comum(self):
         currentState = self.startState
 
         currentEval = Heuristic(currentState).count()
 
+        currentWeight = Heuristic(currentState).getCurrentTotalWeight()
+        totalWeight = Heuristic(currentState).getTotalWeight()
         i = 0
-        while i < self.iterate:
+        while i < self.iterate and currentWeight != totalWeight:
             newState = Neighbor(BagProblem().desalloc(currentState)).generateState()
             nextEval = Heuristic(newState).count()
             #print "CurrentEval : %s | NextEval : %s" % (currentEval, nextEval)
             #print "CurrentState : %s" % currentState[1]
             #print "newState : %s" % newState[1]
+
             if nextEval > currentEval :
                 currentState = copy.deepcopy(newState)
                 currentEval = nextEval
+                currentWeight = Heuristic(currentState).getCurrentTotalWeight()
 
             i += 1
 
         #print "CurrentState ", currentState
         return currentState
+
+    

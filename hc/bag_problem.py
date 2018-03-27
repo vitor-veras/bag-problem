@@ -5,8 +5,8 @@ import random
 import copy
 
 class BagProblem(object):
-    def __init__(self, vItem=(1, 3, 5, 7, 11, 13, 17, 19),
-                 vBag = (23, 29, 31, 37, 41, 43, 47),
+    def __init__(self, vItem=[1, 3, 5, 7, 11, 13, 17, 19],
+                 vBag = [23, 29, 31, 37, 41, 43, 47],
                  nBag=3,
                  nItem=30):
         self.vItem = vItem
@@ -20,7 +20,7 @@ class BagProblem(object):
 
         aux = list(self.vBag)
         for i in range(self.nBag):
-            vol = aux[random.randint(0, len(self.vBag) - 1)]
+            vol = aux[random.randint(0, len(aux) - 1)]
             bags.append(vol)
             aux.remove(vol)
         for i in range(self.nItem):

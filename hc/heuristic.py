@@ -32,3 +32,19 @@ class Heuristic(object):
             if self.itemState[i][1] == bagIndex:
                 eval += 1
         return eval
+
+
+    def getTotalWeight(self):
+        total = 0
+        for i in range(len(self.bagState)):
+            total += self.bagState[i]
+
+        return total
+
+    def getCurrentTotalWeight(self):
+        total = 0
+        for i in range(len(self.itemState)):
+            if not self.itemState[i][1] == len(self.bagState):
+                total += self.itemState[i][0]
+
+        return total

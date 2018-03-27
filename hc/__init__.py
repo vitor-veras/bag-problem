@@ -7,33 +7,20 @@ from hc.bag_problem import BagProblem
 
 
 def main():
-    #initialState = [[29, 23], [[1, 1], [19, 2], [17, 2], [13, 0], [19, 1]]]
+    # initialState = [[29, 23], [[1, 1], [19, 2], [17, 2], [13, 0], [19, 1]]]
 
-    initialState = BagProblem(nBag=3, nItem=30).initState()
-    print("Bags: ", initialState[0], " | Weights: ", initialState[1])
+    bagProblem = BagProblem(nBag=3, nItem=30).initState()
+    #initialState = Neighbor(bagProblem).generateState()
+    initialState = bagProblem
 
-    #h = Heuristic(initialState)
-    #n = Neighbor(initialState).generateState2()
-    #print h.count()
-    #print "Bolsa", n[0], "Itens", n[1]
+    Utils(initialState).printBags()
 
-    #print Generate().desalloc(n)[1]
-    #ws = h.evaluateBag()
-    #print "heuristica %s " % ws
-    #h.listItems()
-    #print "----------------------------"
+    print "----------------------------"
     hc = HillClimbing(500, initialState)
     final = hc.hill()
 
-    #h = Heuristic(final)
-    #ws = h.evaluateBag()
-    #print "heuristica %s " % ws
-    #h.listItems()
-
     print ("----------------------------")
     ut = Utils(final)
-    #print initialState[1]
-    #print ("Final Bags: ", final[0], " | Weights: ", final[1])
     ut.printBags()
 
 
