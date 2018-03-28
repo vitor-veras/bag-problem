@@ -23,14 +23,25 @@ class HillClimbing(object):
         totalWeight = Heuristic(currentState).getTotalWeight()
         i = 0
         while i < self.iterate and currentWeight != totalWeight:
-            newState = Neighbor(BagProblem().desalloc(currentState)).generateState()
-            nextEval = Heuristic(newState).count()
 
-            if nextEval > currentEval :
-                currentState = copy.deepcopy(newState)
+            neighbors = []
+            for i in range(10):
+                newState = Neighbor(BagProblem().desalloc(currentState)).generateState()
+                neighbors.append(newState)
+
+            nextEval = -1
+            nextState = None
+            for neighbor in neighbors:
+                if Heuristic(neighbor).count() > nextEval:
+                    nextState = neighbor
+                    nextEval = Heuristic(neighbor).count()
+
+
+            if nextEval > currentEval:
+                currentState = copy.deepcopy(nextState)
                 currentEval = nextEval
                 currentWeight = Heuristic(currentState).getCurrentTotalWeight()
-
+            else: return currentState
             i += 1
 
         return currentState

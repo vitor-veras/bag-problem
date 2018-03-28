@@ -28,7 +28,6 @@ def main():
 
     ut = Utils(final)
     ut.printBags()
-    print(finalSa)
     print("----------------------------")
 
 
