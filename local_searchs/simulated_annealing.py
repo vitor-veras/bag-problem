@@ -51,6 +51,6 @@ class SimulatedAnnealing(object):
 
                 j += 1
             t = self.alpha * t
-        i += 1
+            i += 1
 
         return currentState, solutions
