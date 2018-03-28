@@ -34,5 +34,3 @@ class HillClimbing(object):
             i += 1
 
         return currentState
-
-    
