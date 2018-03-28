@@ -30,7 +30,8 @@ class Heuristic(object):
         eval = 0
         for i in range(len(self.itemState)):
             if self.itemState[i][1] == bagIndex:
-                eval += 1
+                eval += self.itemState[i][0]
+                #eval += 1
         return eval
 
 

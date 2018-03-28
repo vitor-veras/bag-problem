@@ -22,12 +22,12 @@ def main():
     print("----------------------------")
 
     print("-------Simulated Annealing-------")
-    finalSa = []
-    sa = SimulatedAnnealing(initialState=initialState)
-    final, finalSa = sa.simulate()
+    #finalSa = []
+    #sa = SimulatedAnnealing(initialState=initialState)
+    #final, finalSa = sa.simulate()
 
-    ut = Utils(final)
-    ut.printBags()
+    #ut = Utils(final)
+    #ut.printBags()
     print("----------------------------")
 
 
