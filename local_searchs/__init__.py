@@ -8,7 +8,7 @@ from local_searchs.bag_problem import BagProblem
 import time
 
 def main():
-    bagProblem = BagProblem(nBag=3, nItem=30).initState()
+    bagProblem = BagProblem(vBag = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=15, nItem=80).initState()
     initialState = bagProblem
 
     Utils(initialState).printBags()
@@ -28,7 +28,7 @@ def main():
     finalSa = []
     sa = SimulatedAnnealing(initialState=initialState)
     init = time.time()
-    final, finalSa = sa.simulate()
+    final = sa.simulate()
     end = time.time() - init
 
     ut = Utils(final)

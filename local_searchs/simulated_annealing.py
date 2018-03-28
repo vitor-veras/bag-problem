@@ -33,7 +33,6 @@ class SimulatedAnnealing(object):
         currentWeight = Heuristic(currentState).getCurrentTotalWeight()
         totalWeight = Heuristic(currentState).getTotalWeight()
 
-        solutions = []
 
         while not(success == 0) and i < self.iterate and currentWeight != totalWeight:
             j = 0
@@ -53,4 +52,4 @@ class SimulatedAnnealing(object):
             t = self.alpha * t
             i += 1
 
-        return currentState, solutions
+        return currentState
