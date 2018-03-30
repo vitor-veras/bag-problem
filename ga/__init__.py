@@ -1,14 +1,14 @@
+# -*- coding: utf-8 -*-
+
 from bag_problem import BagProblem
-from genetic_algorithm import GeneticAlgorithm
 
 from genetic_algorithm import GeneticAlgorithm
+
 n_items = 5
 n_bags = 3
 w = [1, 3, 5, 7, 11, 13, 17, 19]
 c = [23, 29, 31, 37, 41, 43, 47]
 
-# ga = GeneticAlgorithm()
-# ga.print_population()
 k = BagProblem(n_items, n_bags, w, c)
 x = k.__class__
 ga = GeneticAlgorithm(k, 5)
@@ -26,3 +26,6 @@ ga.print_population()
 # print("CAPACIDADE DAS BOLSAS:", x.get_capacities(k))
 # print("ESPAÇO VAZIO:", x.get_ls(k))
 # print("É VÁLIDO ?", x.is_valid(k))
+ga = GeneticAlgorithm()
+print ga.init_population(2)
+
