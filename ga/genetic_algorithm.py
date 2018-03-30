@@ -2,9 +2,9 @@
 from random import random
 
 
-# indivíduo = 1 chromossomo
+# indivíduo = 1 cromossomo
 # cromossomo = lista de itens
-# gene = { chromossomo[i] = valor da bolsa no qual está o item,
+# gene = { cromossomo[i] = valor da bolsa no qual está o item,
 #         i = id do item, weights[i] retorna o peso do item com id i}
 
 class GeneticAlgorithm:
@@ -25,8 +25,11 @@ class GeneticAlgorithm:
         for i in self._population:
             print(i)
             print()
-
-# def genetic_algorithm(population, fitness, chromossome, f_thres=None, ngen=1000, p_mut=0.1):
+#
+# def genetic_algorithm(population, fitness_fn, f_thres=None, ngen=500, p_mut=0.1, p_cross=0.8, p_sel=0.1):
+#     i=0
+#     while (i != ngen) and (fittest_individual != f_thres):
+#
 #     for i in range(ngen):
 #         population = [mutate(recombine(*select(2, population, fitness_fn)), gene_pool, pmut)
 #                       for i in range(len(population))]
@@ -36,7 +39,6 @@ class GeneticAlgorithm:
 #             return fittest_individual
 #
 #     return argmax(population, key=fitness_fn)
-#
 #
 # def fitness_threshold(fitness_fn, f_thres, population):
 #     if not f_thres:
@@ -49,23 +51,9 @@ class GeneticAlgorithm:
 #     return None
 #
 #
-# def init_population(pop_number, gene_pool, state_length):
-#     """Initializes population for genetic algorithm
-#     pop_number  :  Number of individuals in population
-#     gene_pool   :  List of possible values for individuals
-#     state_length:  The length of each individual"""
-#     g = len(gene_pool)
-#     population = []
-#     for i in range(pop_number):
-#         new_individual = [gene_pool[random.randrange(0, g)] for j in range(state_length)]
-#         population.append(new_individual)
-#
-#     return population
-#
-#
 # def select(r, population, fitness_fn):
 #     fitnesses = map(fitness_fn, population)
-#     sampler = weighted_sampler(population, fitnesses)
+#     sampler = weighted_choice(fitnesses)
 #     return [sampler() for i in range(r)]
 #
 #
@@ -99,3 +87,17 @@ class GeneticAlgorithm:
 #
 #     new_gene = gene_pool[r]
 #     return x[:c] + [new_gene] + x[c + 1:]
+#
+# def weighted_choice(items):
+#   """
+#   Chooses a random element from items, where items is a list of tuples in
+#   the form (item, weight). weight determines the probability of choosing its
+#   respective item. Note: this function is borrowed from ActiveState Recipes.
+#   """
+#   weight_total = sum((item[1] for item in items))
+#   n = random.uniform(0, weight_total)
+#   for item, weight in items:
+#     if n < weight:
+#       return item
+#     n = n - weight
+#   return item
