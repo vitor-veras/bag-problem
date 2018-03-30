@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 class Heuristic(object):
-
-    #state = [[bagW0, bagW1, bagW2], [(itemW0, inBagX), ...]]
+    # state = [[bagW0, bagW1, bagW2], [(itemW0, inBagX), ...]]
     def __init__(self, state):
         self.state = state
         self.bagState = state[0]
@@ -31,9 +30,8 @@ class Heuristic(object):
         for i in range(len(self.itemState)):
             if self.itemState[i][1] == bagIndex:
                 eval += self.itemState[i][0]
-                #eval += 1
+                # eval += 1
         return eval
-
 
     def getTotalWeight(self):
         total = 0

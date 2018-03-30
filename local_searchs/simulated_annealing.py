@@ -5,10 +5,10 @@ from local_searchs.heuristic import Heuristic
 from local_searchs.bag_problem import BagProblem
 from math import exp
 
+
 # Algoritmo Simulated Annealing adaptado de : https://pt.wikipedia.org/wiki/Simulated_annealing
 
 class SimulatedAnnealing(object):
-
     # maxDisc -> Numero maximo de perturbacoes na temperatura
     # maxSuc -> Numero maximo de sucessos por iteracao
     # alpha -> fator de reducao da temperatura
@@ -17,7 +17,7 @@ class SimulatedAnnealing(object):
                  maxSuc=70,
                  alpha=0.9,
                  startTemp=300,
-                 initialState= None):
+                 initialState=None):
         self.iterate = iterate
         self.maxDis = maxDis
         self.maxSuc = maxSuc
@@ -33,8 +33,7 @@ class SimulatedAnnealing(object):
         currentWeight = Heuristic(currentState).getCurrentTotalWeight()
         totalWeight = Heuristic(currentState).getTotalWeight()
 
-
-        while not(success == 0) and i < self.iterate and currentWeight != totalWeight:
+        while not (success == 0) and i < self.iterate and currentWeight != totalWeight:
             j = 0
             success = 0
             while success <= self.maxSuc and j < self.maxDis:
@@ -44,7 +43,7 @@ class SimulatedAnnealing(object):
                 f2 = Heuristic(newState).count()
                 deltaF = f1 - f2
                 if not t == 0.0:
-                    if (deltaF <= 0) or (exp(-deltaF/t) > random.random()):
+                    if (deltaF <= 0) or (exp(-deltaF / t) > random.random()):
                         currentState = newState
                         success += 1
 

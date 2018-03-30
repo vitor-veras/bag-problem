@@ -1,4 +1,3 @@
-
 from local_searchs.utils import Utils
 from local_searchs.hill_climbing import HillClimbing
 from local_searchs.simulated_annealing import SimulatedAnnealing
@@ -7,8 +6,8 @@ from ga.bag_problem import BagProblem
 from ga.genetic_algorithm import GeneticAlgorithm
 import time
 
+
 def main():
-    
     # BAG PROBLEM PARAMS
     n_items = 30
     n_bags = 3
@@ -17,7 +16,6 @@ def main():
     # GENETIC ALGORITHM PARAMS
     n_ind = 5
     n_generations = 300
-
 
     # bagProblem = BagProblem(vBag = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=15, nItem=80).initState()
     # initialState = bagProblem

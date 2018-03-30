@@ -2,7 +2,6 @@
 from random import random
 
 
-
 # indivíduo = 1 chromossomo
 # cromossomo = lista de itens
 # gene = { chromossomo[i] = valor da bolsa no qual está o item,

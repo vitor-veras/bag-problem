@@ -4,8 +4,6 @@ from local_searchs.heuristic import Heuristic
 
 
 class Neighbor(object):
-
-
     def __init__(self, state):
         self.state = state
         self.bagState = state[0]
@@ -17,10 +15,9 @@ class Neighbor(object):
         nBagState = newState[0]
         nItemState = newState[1]
 
-
         for i in range(len(nBagState)):
             for j in range(len(nItemState)):
-                index = random.randint(0,(len(nItemState) -1))
+                index = random.randint(0, (len(nItemState) - 1))
 
                 if (len(nBagState)) == nItemState[index][1] and \
                         Heuristic(newState).bagWeight(i, nItemState[index][0]):
