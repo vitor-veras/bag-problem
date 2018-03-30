@@ -1,39 +1,31 @@
-# -*- coding: utf-8 -*-
-
+# Genetic Algorithm
 from random import random
-from bag_problem import BagProblem
 
 
-# GA params
 
+# indivíduo = 1 chromossomo
+# cromossomo = lista de itens
+# gene = { chromossomo[i] = valor da bolsa no qual está o item,
+#         i = id do item, weights[i] retorna o peso do item com id i}
 
 class GeneticAlgorithm:
     _population = []
 
-    def __init__(self, problem, pop_number):
+    def __init__(self, problem, n_ind):
         self._p = problem
-        self._population = self.init_population(pop_number)
+        self._population = self.init_population(n_ind)
 
     def init_population(self, n_ind):
         population = []
-        nc = self._p.__class__
         for i in range(n_ind):
-<<<<<<< Updated upstream
-            population.append(nc)
-        for i in range(len(population)):
-            population[i].allocate(self._p, self._p.get_num_items())
-            print(population[i])
+            new_ind = self._p.allocate()
+            population.append(new_ind)
         return population
-=======
-            new_ind = self._bp.allocate(n_items)
 
-            self._population.append(new_ind)
->>>>>>> Stashed changes
-
-        return self._population
     def print_population(self):
-        for i in range(len(self._population)):
-            print(self._population[i].get_items(self._p))
+        for i in self._population:
+            print(i)
+            print()
 
 # def genetic_algorithm(population, fitness, chromossome, f_thres=None, ngen=1000, p_mut=0.1):
 #     for i in range(ngen):

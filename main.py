@@ -1,28 +1,57 @@
-from bag_problem import BagProblem
-from genetic_algorithm import GeneticAlgorithm
 
-from genetic_algorithm import GeneticAlgorithm
-n_items = 5
-n_bags = 3
-w = [1, 3, 5, 7, 11, 13, 17, 19]
-c = [23, 29, 31, 37, 41, 43, 47]
+from local_searchs.utils import Utils
+from local_searchs.hill_climbing import HillClimbing
+from local_searchs.simulated_annealing import SimulatedAnnealing
+from local_searchs.bag_problem import BagProblem
+from ga.bag_problem import BagProblem
+from ga.genetic_algorithm import GeneticAlgorithm
+import time
 
-# ga = GeneticAlgorithm()
-# ga.print_population()
-k = BagProblem(n_items, n_bags, w, c)
-x = k.__class__
-ga = GeneticAlgorithm(k, 5)
-ga.print_population()
-# print("ITENS:", k.get_items(), "PESOS:", k.get_weights())
-# print("PESO ATUAL DAS BOLSAS:", k.get_bags())
-# print("CAPACIDADE DAS BOLSAS:", k.get_capacities())
-# print("ESPAÇO VAZIO:", k.get_ls())
-# print("É VÁLIDO ?", k.is_valid())
-# print()
-#
-# x.allocate(k, n_items)
-# print("ITENS:", x.get_items(k), "PESOS:", x.get_weights(k))
-# print("PESO ATUAL DAS BOLSAS:", x.get_bags(k))
-# print("CAPACIDADE DAS BOLSAS:", x.get_capacities(k))
-# print("ESPAÇO VAZIO:", x.get_ls(k))
-# print("É VÁLIDO ?", x.is_valid(k))
+def main():
+    
+    # BAG PROBLEM PARAMS
+    n_items = 30
+    n_bags = 3
+    w = [1, 3, 5, 7, 11, 13, 17, 19]
+    c = [23, 29, 31, 37, 41, 43, 47]
+    # GENETIC ALGORITHM PARAMS
+    n_ind = 5
+    n_generations = 300
+
+
+    # bagProblem = BagProblem(vBag = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=15, nItem=80).initState()
+    # initialState = bagProblem
+    #
+    # Utils(initialState).printBags()
+    #
+    # print("-------Hill Climbing-------")
+    # hc = HillClimbing(500, initialState)
+    # init = time.time()
+    # final = hc.hill_comum()
+    # end = time.time() - init
+    #
+    # ut = Utils(final)
+    # ut.printBags()
+    # print("Timestamp : {}".format(end))
+    # print("----------------------------")
+    #
+    # print("-------Simulated Annealing-------")
+    # finalSa = []
+    # sa = SimulatedAnnealing(initialState=initialState)
+    # init = time.time()
+    # final = sa.simulate()
+    # end = time.time() - init
+    #
+    # ut = Utils(final)
+    # ut.printBags()
+    # print("Timestamp : {}".format(end))
+    # print("----------------------------")
+
+
+    bp = BagProblem(n_items, n_bags, w, c)
+    ga = GeneticAlgorithm(bp, n_ind)
+    ga.print_population()
+
+
+if __name__ == '__main__':
+    main()
