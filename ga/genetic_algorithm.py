@@ -13,7 +13,6 @@ class GeneticAlgorithm:
     def __init__(self, problem, n_ind):
         self._p = problem
         self._population = self.init_population(n_ind)
-
     def init_population(self, n_ind):
         population = []
         for i in range(n_ind):
@@ -21,11 +20,24 @@ class GeneticAlgorithm:
             population.append(new_ind)
         return population
 
+    def correct(self,population):
+        c = (list(map(lambda x: self._p.correct(x), population)))
+        return c
+
+    def fitness(self, population):
+        aux = (list(map(lambda x: sum(self._p.left_space(x))/sum((self._p.get_capacities())), population)))
+        # fit = 1 - (((a1 - c1) + (a2 + c2) + (a3 - c3)) / (c1 + c2 + c3))
+        fit = list(map(lambda x: 1- abs(x), aux))
+        return fit
+
+
     def print_population(self):
+        print("WEIGHTS: ", self._p.get_weights(),"CAPACITIES: ",self._p.get_capacities())
         for i in self._population:
-            print(i)
-            print()
-#
+            print("ITEMS: ", i, " ATUAL W: ",self._p.get_bags_w(i), " LEFT SPACE: ", self._p.left_space(i))
+
+    def get_population(self):
+        return self._population
 # def genetic_algorithm(population, fitness_fn, f_thres=None, ngen=500, p_mut=0.1, p_cross=0.8, p_sel=0.1):
 #     i=0
 #     while (i != ngen) and (fittest_individual != f_thres):

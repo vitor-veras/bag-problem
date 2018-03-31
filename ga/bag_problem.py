@@ -94,36 +94,31 @@ class BagProblem:
     def get_num_bags(self):
         return len(self._nb)
 
-        #   [ NÃO USADO ]
-        # # Corrije a sobrecarga nas bolsas
-        # def correct(self):
-        #     for i in range(len(self._ls)):
-        #         if self._ls[i] < 0:
-        #             self.unload(i)
-        #
-        # # Descarrega as bolsas que excedem o limite da capacidade
-        # # Descarrega os itens que tem peso acima da média
-        # def unload(self, bag):
-        #     while self._ls[bag] < 0:
-        #         aux = []
-        #         for i in range(len(self._items)):
-        #             if self._items[i] == bag:
-        #                 aux.append(i)
-        #         for j in aux:
-        #             self._items[choice(aux)] = -1
-        #             self.get_bags_w()
-        #             self.left_space()
-        #             # if self._weights[j] > self.get_medium():
-        #             #     self._items[j]=-1
-        #             #     self.get_bags_w()
-        #             #     self.left_space()
-        #
-        # # Calcula a média ponderada dos pesos nas bolsas
-        # def get_medium(self):
-        #     a=0
-        #     b=0
-        #     for i in range(len(self._items)):
-        #         a += (self._items[i]+1) * self._weights[i]
-        #     for j in self._items:
-        #         b += (j+1)
-        #     return a / b
+    # [ NÃO USADO ]
+    # Corrije a sobrecarga nas bolsas
+    def correct(self, items):
+        ls=self.left_space(items)
+        for i in range(len(ls)):
+            if ls[i] < 0:
+                self.unload(items,i)
+
+    # Descarrega as bolsas que excedem o limite da capacidade
+    def unload(self, items, id_bag):
+        ls = self.left_space(items)
+        while ls[id_bag] < 0:
+            aux = []
+            for i in range(len(items)):
+                if items[i] == id_bag:
+                    aux.append(i)
+            items[choice(aux)] = -1
+
+
+    # # Calcula a média ponderada dos pesos nas bolsas
+    # def get_medium(self):
+    #     a=0
+    #     b=0
+    #     for i in range(len(self._items)):
+    #         a += (self._items[i]+1) * self._weights[i]
+    #     for j in self._items:
+    #         b += (j+1)
+    #     return a / b
