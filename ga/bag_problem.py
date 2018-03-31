@@ -111,6 +111,8 @@ class BagProblem:
                 if items[i] == id_bag:
                     aux.append(i)
             items[choice(aux)] = -1
+            ls = self.left_space(items)
+
 
 
     # # Calcula a média ponderada dos pesos nas bolsas

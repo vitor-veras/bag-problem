@@ -48,9 +48,14 @@ def main():
 
     bp = BagProblem(n_items, n_bags, w, c)
     ga = GeneticAlgorithm(bp, n_ind)
+    print("POP INICIAL: ")
     ga.print_population()
+    print("#")
+
     ga.correct(ga.get_population())
+    print("POP CORRIGIDA: ")
     ga.print_population()
+    print("#")
     print("FITNESS" , ga.fitness(ga.get_population()))
 
     # a = [0, 1, 1, -1, 2]
