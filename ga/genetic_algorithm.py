@@ -70,12 +70,12 @@ class GeneticAlgorithm:
 
     def test_gen(self, population, p_sel=0.1):
         sel = []
-        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=True)
+        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=False)
         print("a_fit",a_fitness)
-        new_pop=population
+        new_pop=a_fitness
         for i in range(int(p_sel * len(population))):
-            sel.append(a_fitness[i][0])
-            new_pop.remove(population[a_fitness[i][0]])
+            sel.append(a_fitness.pop())
+            new_pop.remove(a_fitness[i])
 
         print("max fit",max(self.fitness(population)))
         print("selected:",sel)
