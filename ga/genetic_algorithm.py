@@ -50,7 +50,7 @@ class GeneticAlgorithm:
     def get_population(self):
         return self._population
 
-    #     TODO genetic_algorithm(), select(), crossover(), mutate()
+    #     TODO genetic_algorithm(), mutate()
     def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.1, p_cross=0.9, p_sel=0.1):
         i = 0
         a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
@@ -64,6 +64,11 @@ class GeneticAlgorithm:
                 del new_pop[selected[0][i]]
             for i in range(len(new_pop), 2):
                 cross = self.op_crossover(new_pop[i], new_pop[i + 1])
+                p = random.random()
+                if p <= p_mut:
+                    # TODO MUTATE FUNCTION
+                    self.mutate(cross[0])
+                    self.mutate(cross[1])
                 new_pop[i] = cross[0]
                 new_pop[i + 1] = cross[1]
             i += 1
