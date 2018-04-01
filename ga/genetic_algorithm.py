@@ -29,8 +29,10 @@ class GeneticAlgorithm:
     # Retorna uma lista contendo o fitness de cada indivíduo
     def fitness(self, population):
         # fit = 1 - (ls1/c1+c2+c3 + ls2/c1+c2+c3 + ls3/c1+c2+c3)
+        # fit = 1 - [((T_ls)/(T_c))*((T_li)/(T_i))]
         aux = (list(map(lambda x: sum(self._p.left_space(x))/sum((self._p.get_capacities())), population)))
-        fit = list(map(lambda x: 1- x, aux))
+        aux2 = (list(map(lambda x: len(self._p.left_items(x)) / self._p.get_num_items(), population)))
+        fit = list(map(lambda x, y: 1 - x * y, aux, aux2))
         return fit
 
     # Imprime os pesos e capacidades (FIXO)
@@ -38,6 +40,7 @@ class GeneticAlgorithm:
     def print_population(self):
         print("WEIGHTS: ", self._p.get_weights(),"CAPACITIES: ",self._p.get_capacities())
         for i in self._population:
+            print()
             print("ITEMS: ", i)
             print(" ATUAL W: ",self._p.get_bags_w(i), " LEFT SPACE: ", self._p.left_space(i), " LEFT ITEMS: ",self._p.left_items(i))
 
@@ -50,6 +53,7 @@ class GeneticAlgorithm:
         i=0
         a_fitness = self.fitness(population)
         while (i != ngen) and (a_fitness != f_thres):
+
             i+=1
         a_fitness = self.fitness(population)
         a_fitness = list(enumerate(a_fitness))

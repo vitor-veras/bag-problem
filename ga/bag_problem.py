@@ -138,7 +138,8 @@ class BagProblem:
         return self._capacities
 
     def get_num_items(self):
-        return len(self._ni)
+        return self._ni
 
     def get_num_bags(self):
         return len(self._nb)
+

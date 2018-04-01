@@ -10,7 +10,7 @@ import time
 def main():
 
     # BAG PROBLEM PARAMS
-    n_items = 10
+    n_items = 30
     n_bags = 3
     w = [1, 3, 5, 7, 11, 13, 17, 19]
     c = [23, 29, 31, 37, 41, 43, 47]
