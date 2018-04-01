@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 import copy
 from local_searchs.heuristic import Heuristic

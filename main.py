@@ -9,7 +9,7 @@ import time
 
 def main():
     # BAG PROBLEM PARAMS
-    n_items = 30
+    n_items = 10
     n_bags = 3
     w = [1, 3, 5, 7, 11, 13, 17, 19]
     c = [23, 29, 31, 37, 41, 43, 47]
@@ -57,21 +57,6 @@ def main():
     ga.print_population()
     print("#")
     print("FITNESS" , ga.fitness(ga.get_population()))
-
-    # a = [0, 1, 1, -1, 2]
-    # b = [1, 2, 2, -1, 2]
-    # pop = [a,b]
-    # fit=lambda x: bp.get_bags_w(x)
-    # m=[]
-    # print(len(pop))
-    # print(bp.get_weights())
-    # print(bp.get_capacities())
-    # m = (list(map(fit, pop)))
-    #
-    # # for i in range(len(pop)):
-    # #     m.append(list(map(fit,pop[i])))
-    # # m = list(map(fit,a))
-    # print(m)
 
 
 if __name__ == '__main__':

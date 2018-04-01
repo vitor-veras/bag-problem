@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from random import choice
 from random import randint
 
@@ -81,6 +82,46 @@ class BagProblem:
                 return False
         return True
 
+    # Corrije a sobrecarga nas bolsas
+    def correct(self, items):
+        ls = self.left_space(items)
+        for i in range(len(ls)):
+            if ls[i] < 0:
+                self.unload(items, i)
+
+    # Descarrega a bolsa que excedem o limite da capacidade
+    # Descarrega retirando os itens mais leves, pois queremos maximizar o peso dos itens
+    def unload(self, items, id_bag):
+        ls = self.left_space(items)
+        while ls[id_bag] < 0:
+            # aux: lista auxiliar que guarda o id dos itens(em [items]) que estão na bolsa sobrecarregada
+            # f: lista do valor dos pesos dos itens que pertencem a lista aux
+            aux = []
+            f = []
+            x = 0
+            # inicia aux com os id em [items]
+            for i in range(len(items)):
+                if items[i] == id_bag:
+                    aux.append(i)
+            # inicia f com os pesos dos itens que estão na bolsa passada(id_bag)
+            for i in aux:
+                f.append(self._weights[i])
+
+            # RETIRADA DOS ITENS:
+            # (1) enumera-se a lista de pesos f[], de forma que teremos:
+            #       f[] = [(id_em_aux , peso_do_item), (), ..., ()]
+            # (2) Ordena-se f[] de acordo com os pesos, mas mantendo o id_em_aux
+            # (3) retira-se o item atribuindo -1 na lista [items]
+            #       f[x][0] retorna o id_em_aux do item, neste caso do item de menor peso pois está ordenado
+            #       aux[f[x][0]] retorna o id_em_items do item de menor peso no momento
+            #       incrementa-se x
+            #       recalcule ls, já que 1 item foi retirado
+            f = list(enumerate(f))
+            f = sorted(f, key=lambda tup: tup[1])
+            items[aux[f[x][0]]] = -1
+            x += 1
+            ls = self.left_space(items)
+
     # GETS E SETS
     def get_weights(self):
         return self._weights
@@ -93,34 +134,3 @@ class BagProblem:
 
     def get_num_bags(self):
         return len(self._nb)
-
-    # [ NÃO USADO ]
-    # Corrije a sobrecarga nas bolsas
-    def correct(self, items):
-        ls=self.left_space(items)
-        for i in range(len(ls)):
-            if ls[i] < 0:
-                self.unload(items,i)
-
-    # Descarrega as bolsas que excedem o limite da capacidade
-    def unload(self, items, id_bag):
-        ls = self.left_space(items)
-        while ls[id_bag] < 0:
-            aux = []
-            for i in range(len(items)):
-                if items[i] == id_bag:
-                    aux.append(i)
-            items[choice(aux)] = -1
-            ls = self.left_space(items)
-
-
-
-    # # Calcula a média ponderada dos pesos nas bolsas
-    # def get_medium(self):
-    #     a=0
-    #     b=0
-    #     for i in range(len(self._items)):
-    #         a += (self._items[i]+1) * self._weights[i]
-    #     for j in self._items:
-    #         b += (j+1)
-    #     return a / b

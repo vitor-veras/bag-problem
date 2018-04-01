@@ -1,4 +1,5 @@
 # Genetic Algorithm
+# -*- coding: utf-8 -*-
 from random import random
 
 
@@ -27,7 +28,7 @@ class GeneticAlgorithm:
     def fitness(self, population):
         aux = (list(map(lambda x: sum(self._p.left_space(x))/sum((self._p.get_capacities())), population)))
         # fit = 1 - (((a1 - c1) + (a2 + c2) + (a3 - c3)) / (c1 + c2 + c3))
-        fit = list(map(lambda x: 1- abs(x), aux))
+        fit = list(map(lambda x: 1- x, aux))
         return fit
 
 
