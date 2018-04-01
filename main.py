@@ -60,7 +60,7 @@ def main():
     print("#")
     print("FITNESS" , ga.fitness(ga.get_population()))
 
-    ga.test_gen(ga.get_population())
+    ga.select(ga.get_population())
 
 
 if __name__ == '__main__':
