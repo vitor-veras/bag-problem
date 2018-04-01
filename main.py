@@ -19,7 +19,7 @@ def main():
     n_generations = 300
 
     """LOCAL SEARCHS TESTS(HC - SA)"""
-    # bagProblem = BagProblem(vBag = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=15, nItem=80).initState()
+    # bagProblem = BagProblem(vBag=[23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=3, nItem=30).initState()
     # initialState = bagProblem
     #
     # Utils(initialState).printBags()
