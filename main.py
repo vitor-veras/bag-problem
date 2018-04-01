@@ -10,7 +10,7 @@ import time
 def main():
 
     # BAG PROBLEM PARAMS
-    n_items = 5
+    n_items = 30
     n_bags = 3
     w = [1, 3, 5, 7, 11, 13, 17, 19]
     c = [23, 29, 31, 37, 41, 43, 47]
@@ -53,14 +53,14 @@ def main():
     print("POP INICIAL: ")
     ga.print_population()
     print("#")
+    ga.genetic_algorithm(ga.get_population())
 
-    ga.correct(ga.get_population())
-    print("POP CORRIGIDA: ")
-    ga.print_population()
-    print("#")
-    print("FITNESS" , ga.fitness(ga.get_population()))
-
-    ga.select(ga.get_population())
+    # ga.correct(ga.get_population())
+    # print("POP CORRIGIDA: ")
+    # ga.print_population()
+    # print("#")
+    # print("FITNESS" , ga.fitness(ga.get_population()))
+    #ga.select(ga.get_population())
 
 
 if __name__ == '__main__':

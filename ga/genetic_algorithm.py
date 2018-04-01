@@ -6,6 +6,7 @@ from random import random
 # cromossomo = lista de itens
 # gene = { cromossomo[i] = valor da bolsa no qual está o item,
 #         i = id do item, weights[i] retorna o peso do item com id i}
+import random
 
 class GeneticAlgorithm:
     _population = []
@@ -51,38 +52,48 @@ class GeneticAlgorithm:
         return self._population
 
     #     TODO genetic_algorithm(), mutate()
-    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.1, p_cross=0.9, p_sel=0.1):
+    def genetic_algorithm(self, population, f_thres=None, ngen=100, p_mut=0.1, p_sel=0.1):
         i = 0
         a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
-        while (i != ngen) and (a_fitness != f_thres) and max(a_fitness) != 1:
-            a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
-            new_pop = population
+        a_fif = []
+        for k in a_fitness:
+            a_fif.append(k[1])
+        while (i != ngen) and (max(a_fif) != 1.0) : #and (a_fitness != f_thres)
+            new_pop = []
             mut = []
-            cross = []
             selected = self.select(population, p_sel)
             for i in range(len(selected)):
-                del new_pop[selected[0][i]]
-            for i in range(len(new_pop), 2):
-                cross = self.op_crossover(new_pop[i], new_pop[i + 1])
+                new_pop.append(population[selected[i][0]])
+                del population[selected[i][0]]
+            for i in range(0, len(population), 2):
+                cross = self.op_crossover(population[i], population[i + 1])
                 p = random.random()
                 if p <= p_mut:
                     # TODO MUTATE FUNCTION
                     self.mutate(cross[0])
                     self.mutate(cross[1])
-                new_pop[i] = cross[0]
-                new_pop[i + 1] = cross[1]
+                population[i] = cross[0]
+                population[i + 1] = cross[1]
+                new_pop.append(population[i])
+                new_pop.append(population[i+1])
+            population = new_pop
+            a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
+            a_fif = []
+            for k in a_fitness:
+                a_fif.append(k[1])
             i += 1
         # a_fitness = self.fitness(population)
         # a_fitness = list(enumerate(a_fitness))
         # a_fitness = sorted(a_fitness, key=lambda tup: tup[1])
-        # return "individual: ",population[a_fitness[0][0]]," FITNESS: ",a_fitness[0][1]
-        return "papoca"
+        return print("Individual:{} | FITNESS: {} ".format(population[a_fitness[-1][0]], a_fitness[-1][1]))
+        #return "papoca"
 
     def select(self, population, p_sel=0.1):
         sel = []
         aux = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=False)
         for i in range(int(p_sel * len(population))):
             sel.append(aux.pop())
+        print(sel)
         return sel
 
     def op_crossover(self, x, y):
@@ -100,6 +111,16 @@ class GeneticAlgorithm:
         son2 = y[:c] + x[c:len(x) - c] + y[len(y) - c:]
 
         return list((son1, son2))
+
+    def mutate(self, x):
+        aux = self._p.left_items(x)
+        max_w = [0, 0] # max_w[0] -> indica o maior peso / max_w[1] -> indice do maior peso
+        for i in aux:
+            if self._p.get_weights()[i] > max_w[0]:
+                max_w[0] = self._p.get_weights()[i]
+                max_w[1] = i
+        x[max_w[1]] = random.randint(0, self._p.get_num_bags()-1)
+
 
 #     if not f_thres:
 #         return None

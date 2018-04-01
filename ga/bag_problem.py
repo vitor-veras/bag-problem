@@ -127,7 +127,7 @@ class BagProblem:
         li=[]
         for i in range(len(items)):
             if items[i] == -1:
-                li.append(self._weights[i])
+                li.append(i)
         return li
 
     # GETS
@@ -141,5 +141,5 @@ class BagProblem:
         return self._ni
 
     def get_num_bags(self):
-        return len(self._nb)
+        return self._nb
 

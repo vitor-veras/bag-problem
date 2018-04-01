@@ -7,8 +7,16 @@ from local_searchs.simulated_annealing import SimulatedAnnealing
 from local_searchs.bag_problem import BagProblem
 import time
 
+from local_searchs.heuristic import Heuristic
+from local_searchs.neighbor import Neighbor
+from local_searchs.utils import Utils
+from local_searchs.hill_climbing import HillClimbing
+from local_searchs.simulated_annealing import SimulatedAnnealing
+from local_searchs.bag_problem import BagProblem
+import time
+
 def main():
-    bagProblem = BagProblem(vBag = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=15, nItem=80).initState()
+    bagProblem = BagProblem(nBag=2, nItem=6).initState()
     initialState = bagProblem
 
     Utils(initialState).printBags()
@@ -24,8 +32,9 @@ def main():
     print("Timestamp : {}".format(end))
     print("----------------------------")
 
+    print(final)
+
     print("-------Simulated Annealing-------")
-    finalSa = []
     sa = SimulatedAnnealing(initialState=initialState)
     init = time.time()
     final = sa.simulate()
