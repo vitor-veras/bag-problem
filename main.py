@@ -8,6 +8,7 @@ import time
 
 
 def main():
+
     # BAG PROBLEM PARAMS
     n_items = 10
     n_bags = 3
@@ -17,6 +18,7 @@ def main():
     n_ind = 5
     n_generations = 300
 
+    """LOCAL SEARCHS TESTS(HC - SA)"""
     # bagProblem = BagProblem(vBag = [23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=15, nItem=80).initState()
     # initialState = bagProblem
     #
@@ -45,18 +47,18 @@ def main():
     # print("Timestamp : {}".format(end))
     # print("----------------------------")
 
-
-    bp = BagProblem(n_items, n_bags, w, c)
-    ga = GeneticAlgorithm(bp, n_ind)
-    print("POP INICIAL: ")
-    ga.print_population()
-    print("#")
-
-    ga.correct(ga.get_population())
-    print("POP CORRIGIDA: ")
-    ga.print_population()
-    print("#")
-    print("FITNESS" , ga.fitness(ga.get_population()))
+    """GENETIC ALGORITHM TESTS"""
+    # bp = BagProblem(n_items, n_bags, w, c)
+    # ga = GeneticAlgorithm(bp, n_ind)
+    # print("POP INICIAL: ")
+    # ga.print_population()
+    # print("#")
+    #
+    # ga.correct(ga.get_population())
+    # print("POP CORRIGIDA: ")
+    # ga.print_population()
+    # print("#")
+    # print("FITNESS" , ga.fitness(ga.get_population()))
 
 
 if __name__ == '__main__':
