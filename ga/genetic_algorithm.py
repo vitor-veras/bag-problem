@@ -32,7 +32,7 @@ class GeneticAlgorithm:
         # fit = 1 - [((T_ls)/(T_c))*((T_li)/(T_i))]
         aux = (list(map(lambda x: sum(self._p.left_space(x))/sum((self._p.get_capacities())), population)))
         aux2 = (list(map(lambda x: len(self._p.left_items(x)) / self._p.get_num_items(), population)))
-        fit = list(map(lambda x, y: 1 - x * y, aux, aux2))
+        fit = list(map(lambda x, y: 1 - (x * y), aux, aux2))
         return fit
 
     # Imprime os pesos e capacidades (FIXO)
@@ -49,18 +49,37 @@ class GeneticAlgorithm:
         return self._population
 
 #     TODO genetic_algorithm(), select(), crossover(), mutate()
-    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.1, p_cross=0.8, p_sel=0.1):
+    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.1, p_cross=0.9, p_sel=0.1):
         i=0
-        a_fitness = self.fitness(population)
-        while (i != ngen) and (a_fitness != f_thres):
-
+        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
+        while (i != ngen) and (a_fitness != f_thres) and max(a_fitness)!=1:
+            a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
+            new_pop=population
+            mut = []
+            cross = []
+            sel = []
+            for i in range(int(p_sel*len(population))):
+                sel.append(a_fitness[i][0])
+                new_pop.remove(a_fitness[i][0])
             i+=1
-        a_fitness = self.fitness(population)
-        a_fitness = list(enumerate(a_fitness))
-        a_fitness = sorted(a_fitness, key=lambda tup: tup[1])
-        return "individual: ",population[a_fitness[0][0]]," FITNESS: ",a_fitness[0][1]
+        # a_fitness = self.fitness(population)
+        # a_fitness = list(enumerate(a_fitness))
+        # a_fitness = sorted(a_fitness, key=lambda tup: tup[1])
+        # return "individual: ",population[a_fitness[0][0]]," FITNESS: ",a_fitness[0][1]
+        return "papoca"
 
+    def test_gen(self, population, p_sel=0.1):
+        sel = []
+        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=True)
+        print("a_fit",a_fitness)
+        new_pop=population
+        for i in range(int(p_sel * len(population))):
+            sel.append(a_fitness[i][0])
+            new_pop.remove(population[a_fitness[i][0]])
 
+        print("max fit",max(self.fitness(population)))
+        print("selected:",sel)
+        return sel
 # def fitness_threshold(fitness_fn, f_thres, population):
 #     if not f_thres:
 #         return None

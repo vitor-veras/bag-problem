@@ -15,7 +15,7 @@ def main():
     w = [1, 3, 5, 7, 11, 13, 17, 19]
     c = [23, 29, 31, 37, 41, 43, 47]
     # GENETIC ALGORITHM PARAMS
-    n_ind = 5
+    n_ind = 100
     n_generations = 300
 
     """LOCAL SEARCHS TESTS(HC - SA)"""
@@ -59,6 +59,8 @@ def main():
     ga.print_population()
     print("#")
     print("FITNESS" , ga.fitness(ga.get_population()))
+
+    # ga.test_gen(ga.get_population())
 
 
 if __name__ == '__main__':
