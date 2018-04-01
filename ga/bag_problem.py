@@ -122,7 +122,15 @@ class BagProblem:
             x += 1
             ls = self.left_space(items)
 
-    # GETS E SETS
+    # Dado a lista de itens retorna a quantidade de itens deixados fora da alocação
+    def left_items(self, items):
+        li=[]
+        for i in range(len(items)):
+            if items[i] == -1:
+                li.append(self._weights[i])
+        return li
+
+    # GETS
     def get_weights(self):
         return self._weights
 
