@@ -36,12 +36,12 @@ class HillClimbing(object):
                     nextState = neighbor
                     nextEval = Heuristic(neighbor).count()
 
-
             if nextEval > currentEval:
                 currentState = copy.deepcopy(nextState)
                 currentEval = nextEval
                 currentWeight = Heuristic(currentState).getCurrentTotalWeight()
-            else: return currentState
+            else:
+                return currentState
             i += 1
 
         return currentState

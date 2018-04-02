@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 import sys
 from local_searchs.neighbor import Neighbor
@@ -8,7 +9,6 @@ from math import exp
 # Algoritmo Simulated Annealing adaptado de : http://conteudo.icmc.usp.br/pessoas/sandra/G9_t2/annealing.htm
 
 class SimulatedAnnealing(object):
-
     # maxDisc -> Numero maximo de perturbacoes na temperatura
     # maxSuc -> Numero maximo de sucessos por iteracao
     # alpha -> fator de reducao da temperatura
