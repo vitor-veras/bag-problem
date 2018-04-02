@@ -16,7 +16,9 @@ from local_searchs.bag_problem import BagProblem
 import time
 
 def main():
+
     bagProblem = BagProblem(nBag=2, nItem=6).initState()
+    bagProblem = BagProblem(nBag=3, nItem=30).initState()
     initialState = bagProblem
 
     Utils(initialState).printBags()

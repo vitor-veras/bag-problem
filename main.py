@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from local_searchs.utils import Utils
 from local_searchs.hill_climbing import HillClimbing
 from local_searchs.simulated_annealing import SimulatedAnnealing
