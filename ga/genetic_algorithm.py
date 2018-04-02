@@ -55,7 +55,7 @@ class GeneticAlgorithm:
         return self._population
 
 
-    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.1, p_sel=0.1):
+    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.3, p_sel=0.2):
         n = 0
         a_fitness = self.fitness(population)
         while (n != ngen) and (max(a_fitness) != 1.0):
@@ -67,13 +67,16 @@ class GeneticAlgorithm:
             new_pop = self.Diff(population, new_pop)
 
             for i in range(0, len(new_pop), 2):
-                cross = self.op_crossover(new_pop[i], new_pop[i + 1])
-                p = random.random()
-                if p <= p_mut:
-                    self.mutate(cross[0])
-                    self.mutate(cross[1])
-                new_pop[i] = cross[0]
-                new_pop[i + 1] = cross[1]
+                try:
+                    cross = self.op_crossover(new_pop[i], new_pop[i + 1])
+                    p = random.random()
+                    if p <= p_mut:
+                        self.mutate(cross[0])
+                        self.mutate(cross[1])
+                    new_pop[i] = cross[0]
+                    new_pop[i + 1] = cross[1]
+                except IndexError:
+                    continue
             for i in range(len(selected)):
                 new_pop.append(population[selected[i]])
             new_pop = self.correct(new_pop)
@@ -85,8 +88,10 @@ class GeneticAlgorithm:
         print("iteração: ",n)
         print(population)
         print("A_fit: ", a_fitness)
-        print("melhor indv: ", population[a_fitness[0][0]])
-        print("Fitness: ",a_fitness[0][1])
+        print('###########################################################################')
+        print("Melhor Indv: ", population[a_fitness[0][0]])
+        self._p.printBags(population[a_fitness[0][0]])
+        print("Fitness: ", a_fitness[0][1])
 
 
     def select(self, population, p_sel=0.1):
@@ -106,7 +111,6 @@ class GeneticAlgorithm:
     def tp_crossover(self, x, y):
         n = len(x)
         c = round(n / 2) - 1
-        print(c)
         son1 = x[:c] + y[c:len(y) - c] + x[len(x) - c:]
         son2 = y[:c] + x[c:len(x) - c] + y[len(y) - c:]
 
@@ -119,7 +123,7 @@ class GeneticAlgorithm:
             if self._p.get_weights()[i] > max_w[0]:
                 max_w[0] = self._p.get_weights()[i]
                 max_w[1] = i
-        x[max_w[1]] = random.randint(0, self._p.get_num_bags() - 1)
+        x[max_w[1]] = random.randint(0, self._p.get_num_bags()-1) #aloca o maior peso a alguma bolsa aleatória
 
     # Python code t get difference of two lists
     def Diff(self, li1, li2):

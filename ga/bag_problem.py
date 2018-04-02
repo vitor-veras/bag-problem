@@ -128,6 +128,28 @@ class BagProblem:
                 li.append(i)
         return li
 
+    def printBags(self, items):
+        bags = self.BagsList(self.get_num_bags())
+        outBag = []
+
+        for i in range(len(items)):
+            bag_index = items[i]
+            if bag_index != -1:
+                item = self.get_weights()[i]
+                bags[bag_index].append(item)
+                continue
+            outBag.append(self.get_weights()[i])
+
+        for i in range(len(bags)):
+            print('Bag {} = {} | Max Vol. = {} , Allocated = {}'.format(i + 1, bags[i],self.get_capacities()[i],sum(bags[i])))
+        print('Items out of bags: {}'.format(outBag))
+
+    def BagsList(self, size):
+        bags = list()
+        for i in range(0, size):
+            bags.append(list())
+        return bags
+
     # GETS
     def get_weights(self):
         return self._weights
