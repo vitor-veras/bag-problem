@@ -88,6 +88,7 @@ class BagProblem:
         for i in range(len(ls)):
             if ls[i] < 0:
                 self.unload(items, i)
+        return items
 
     # Descarrega a bolsa que excedem o limite da capacidade
     # Descarrega retirando os itens mais leves, pois queremos maximizar o peso dos itens
@@ -98,7 +99,6 @@ class BagProblem:
             # f: lista do valor dos pesos dos itens que pertencem a lista aux
             aux = []
             f = []
-            x = 0
             # inicia aux com os id em [items]
             for i in range(len(items)):
                 if items[i] == id_bag:
@@ -112,14 +112,12 @@ class BagProblem:
             #       f[] = [(id_em_aux , peso_do_item), (), ..., ()]
             # (2) Ordena-se f[] de acordo com os pesos, mas mantendo o id_em_aux
             # (3) retira-se o item atribuindo -1 na lista [items]
-            #       f[x][0] retorna o id_em_aux do item, neste caso do item de menor peso pois está ordenado
-            #       aux[f[x][0]] retorna o id_em_items do item de menor peso no momento
-            #       incrementa-se x
+            #       f[0][0] retorna o id_em_aux do item, neste caso do item de menor peso pois está ordenado
+            #       aux[f[0][0]] retorna o id_em_items do item de menor peso no momento
             #       recalcule ls, já que 1 item foi retirado
             f = list(enumerate(f))
             f = sorted(f, key=lambda tup: tup[1])
-            items[aux[f[x][0]]] = -1
-            x += 1
+            items[aux[f[0][0]]] = -1
             ls = self.left_space(items)
 
     # Dado a lista de itens retorna a quantidade de itens deixados fora da alocação

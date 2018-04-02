@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from random import random
 
-
 # indivíduo = 1 cromossomo
 # cromossomo = lista de itens
 # gene = { cromossomo[i] = valor da bolsa no qual está o item,
 #         i = id do item, weights[i] retorna o peso do item com id i}
 import random
+
 
 class GeneticAlgorithm:
     _population = []
@@ -25,7 +25,10 @@ class GeneticAlgorithm:
 
     # Corrige a população caso exista indivíduos inviáveis
     def correct(self, population):
-        c = (list(map(lambda x: self._p.correct(x), population)))
+        c = []
+        for i in range(len(population)):
+            c.append(self._p.correct(population[i]))
+        # c = (map(lambda x: self._p.correct(x), population))
         return c
 
     # Retorna uma lista contendo o fitness de cada indivíduo
@@ -51,49 +54,46 @@ class GeneticAlgorithm:
     def get_population(self):
         return self._population
 
-    #     TODO genetic_algorithm(), mutate()
-    def genetic_algorithm(self, population, f_thres=None, ngen=100, p_mut=0.1, p_sel=0.1):
-        i = 0
-        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
-        a_fif = []
-        for k in a_fitness:
-            a_fif.append(k[1])
-        while (i != ngen) and (max(a_fif) != 1.0) : #and (a_fitness != f_thres)
+
+    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.1, p_sel=0.1):
+        n = 0
+        a_fitness = self.fitness(population)
+        while (n != ngen) and (max(a_fitness) != 1.0):
+
             new_pop = []
-            mut = []
             selected = self.select(population, p_sel)
             for i in range(len(selected)):
-                new_pop.append(population[selected[i][0]])
-                del population[selected[i][0]]
-            for i in range(0, len(population), 2):
-                cross = self.op_crossover(population[i], population[i + 1])
+                new_pop.append(population[selected[i]])
+            new_pop = self.Diff(population, new_pop)
+
+            for i in range(0, len(new_pop), 2):
+                cross = self.op_crossover(new_pop[i], new_pop[i + 1])
                 p = random.random()
                 if p <= p_mut:
-                    # TODO MUTATE FUNCTION
                     self.mutate(cross[0])
                     self.mutate(cross[1])
-                population[i] = cross[0]
-                population[i + 1] = cross[1]
-                new_pop.append(population[i])
-                new_pop.append(population[i+1])
+                new_pop[i] = cross[0]
+                new_pop[i + 1] = cross[1]
+            for i in range(len(selected)):
+                new_pop.append(population[selected[i]])
+            new_pop = self.correct(new_pop)
             population = new_pop
-            a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1])
-            a_fif = []
-            for k in a_fitness:
-                a_fif.append(k[1])
-            i += 1
-        # a_fitness = self.fitness(population)
-        # a_fitness = list(enumerate(a_fitness))
-        # a_fitness = sorted(a_fitness, key=lambda tup: tup[1])
-        return print("Individual:{} | FITNESS: {} ".format(population[a_fitness[-1][0]], a_fitness[-1][1]))
-        #return "papoca"
+            a_fitness = self.fitness(population)
+            n += 1
+        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=True)
+
+        print("iteração: ",n)
+        print(population)
+        print("A_fit: ", a_fitness)
+        print("melhor indv: ", population[a_fitness[0][0]])
+        print("Fitness: ",a_fitness[0][1])
+
 
     def select(self, population, p_sel=0.1):
         sel = []
         aux = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=False)
         for i in range(int(p_sel * len(population))):
-            sel.append(aux.pop())
-        print(sel)
+            sel.append((aux.pop())[0])
         return sel
 
     def op_crossover(self, x, y):
@@ -114,58 +114,14 @@ class GeneticAlgorithm:
 
     def mutate(self, x):
         aux = self._p.left_items(x)
-        max_w = [0, 0] # max_w[0] -> indica o maior peso / max_w[1] -> indice do maior peso
+        max_w = [0, 0]  # max_w[0] -> indica o maior peso / max_w[1] -> indice do maior peso
         for i in aux:
             if self._p.get_weights()[i] > max_w[0]:
                 max_w[0] = self._p.get_weights()[i]
                 max_w[1] = i
-        x[max_w[1]] = random.randint(0, self._p.get_num_bags()-1)
+        x[max_w[1]] = random.randint(0, self._p.get_num_bags() - 1)
 
-
-#     if not f_thres:
-#         return None
-#
-#     fittest_individual = argmax(population, key=fitness_fn)
-#     if fitness_fn(fittest_individual) >= f_thres:
-#         return fittest_individual
-#
-#     return None
-#
-#
-# def select(r, population, fitness_fn):
-#     fitnesses = map(fitness_fn, population)
-#     sampler = weighted_choice(fitnesses)
-#     return [sampler() for i in range(r)]
-#
-#
-# def recombine(x, y):
-#     n = len(x)
-#     c = random.randrange(0, n)
-#     return x[:c] + y[c:]
-#
-#
-# def recombine_uniform(x, y):
-#     n = len(x)
-#     result = [0] * n;
-#     indexes = random.sample(range(n), n)
-#     for i in range(n):
-#         ix = indexes[i]
-#         result[ix] = x[ix] if i < n / 2 else y[ix]
-#     try:
-#         return ''.join(result)
-#     except:
-#         return result
-#
-#
-# def mutate(x, gene_pool, pmut):
-#     if random.uniform(0, 1) >= pmut:
-#         return x
-#
-#     n = len(x)
-#     g = len(gene_pool)
-#     c = random.randrange(0, n)
-#     r = random.randrange(0, g)
-#
-#     new_gene = gene_pool[r]
-#     return x[:c] + [new_gene] + x[c + 1:]
-#
+    # Python code t get difference of two lists
+    def Diff(self, li1, li2):
+        li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
+        return li_dif
