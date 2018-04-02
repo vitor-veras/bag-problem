@@ -9,7 +9,6 @@ import random
 
 
 class GeneticAlgorithm:
-    _population = []
 
     def __init__(self, problem, n_ind):
         self._p = problem
@@ -31,7 +30,7 @@ class GeneticAlgorithm:
     #         p_mut: probabilidade de mutação
     #         p_sel: porcentagem de elitismo
     #         f_thres: limiar de fitness(previne estagnação)
-    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.5, p_sel=0.1):
+    def genetic_algorithm(self, population, ngen=500, p_mut=0.1, p_sel=0.1):
         n = 0
         a_fitness = self.fitness(population)
         while (n != ngen) and (max(a_fitness) != 1.0):
@@ -74,13 +73,18 @@ class GeneticAlgorithm:
             n += 1
 
         a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=True)
-        print("Geração: ", n)
-        print("Populaçao: ", population)
-        print("Fitness da população: ", a_fitness)
-        print('#')
-        print("Melhor indivíduo: ", population[a_fitness[0][0]])
-        self._p.printBags(population[a_fitness[0][0]])
-        print("Fitness: ", a_fitness[0][1])
+
+        print('---------------------------------------------------------------------------------------------')
+        print("Configuração: Tamanho da população: ",len(population)," Número máximo de gerações: ",ngen)
+        print("Probabilidade de mutação: ",p_mut, " Porcentagem de elitismo: ",p_sel)
+        print("Geração atual: ", n)
+        # print("Populaçao: ", population)
+        # print("Fitness da população: ", a_fitness)
+        # print('#')
+        # print("Melhor indivíduo: ", population[a_fitness[0][0]])
+        # self._p.printBags(population[a_fitness[0][0]])
+        print("Fitness atual: ", a_fitness[0][1])
+        print('---------------------------------------------------------------------------------------------')
 
     # Corrige a população caso exista indivíduos inviáveis
     def correct(self, population):
