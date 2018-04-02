@@ -56,7 +56,8 @@ def main():
     # ga.correct(ga.get_population())
     ga.print_population()
     print("#")
-
+    print("pesos: ", ga._p.get_weights())
+    print("capacidades: ", ga._p.get_capacities())
     ga.genetic_algorithm(ga.get_population())
 
 

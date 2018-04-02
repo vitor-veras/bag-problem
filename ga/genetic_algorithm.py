@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from random import random
-
+import sys
 # indivíduo = 1 cromossomo
 # cromossomo = lista de itens
 # gene = { cromossomo[i] = valor da bolsa no qual está o item,
@@ -33,7 +33,6 @@ class GeneticAlgorithm:
 
     # Retorna uma lista contendo o fitness de cada indivíduo
     def fitness(self, population):
-        # fit = 1 - (ls1/c1+c2+c3 + ls2/c1+c2+c3 + ls3/c1+c2+c3)
         # fit = 1 - [((T_ls)/(T_c))*((T_li)/(T_i))]
         aux = (list(map(lambda x: sum(self._p.left_space(x)) / sum((self._p.get_capacities())), population)))
         aux2 = (list(map(lambda x: len(self._p.left_items(x)) / self._p.get_num_items(), population)))
@@ -48,14 +47,14 @@ class GeneticAlgorithm:
             print()
             print("ITEMS: ", i)
             print(" ATUAL W: ", self._p.get_bags_w(i), " LEFT SPACE: ", self._p.left_space(i), " LEFT ITEMS: ",
-                  self._p.left_items(i))
+                  list(map(lambda x: self._p._weights[x], self._p.left_items(i))))
 
     # Retorna a população
     def get_population(self):
         return self._population
 
 
-    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.3, p_sel=0.2):
+    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.5, p_sel=0.1):
         n = 0
         a_fitness = self.fitness(population)
         while (n != ngen) and (max(a_fitness) != 1.0):
@@ -93,7 +92,8 @@ class GeneticAlgorithm:
         self._p.printBags(population[a_fitness[0][0]])
         print("Fitness: ", a_fitness[0][1])
 
-
+    # Elitismo
+    #
     def select(self, population, p_sel=0.1):
         sel = []
         aux = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=False)
@@ -101,6 +101,8 @@ class GeneticAlgorithm:
             sel.append((aux.pop())[0])
         return sel
 
+    # One-point crossover:
+    #   realiza um corte na metade do indivíduo
     def op_crossover(self, x, y):
         n = len(x)
         c = round(n / 2)
@@ -108,6 +110,8 @@ class GeneticAlgorithm:
         son2 = x[c:] + y[:c]
         return list((son1, son2))
 
+    # Two-point crossover:
+    #   realiza dois cortes
     def tp_crossover(self, x, y):
         n = len(x)
         c = round(n / 2) - 1
@@ -116,16 +120,19 @@ class GeneticAlgorithm:
 
         return list((son1, son2))
 
+    # Mutação:
+    #   Aloca o maior peso que está fora das bolsas em uma das bolsas
     def mutate(self, x):
+        # aux: recebe uma lista de indices dos itens que estão fora das bolsas
         aux = self._p.left_items(x)
-        max_w = [0, 0]  # max_w[0] -> indica o maior peso / max_w[1] -> indice do maior peso
+        max_w = [sys.maxsize, 0]  # max_w[0] -> indica o maior peso / max_w[1] -> indice do maior peso
         for i in aux:
-            if self._p.get_weights()[i] > max_w[0]:
+            if self._p.get_weights()[i] < max_w[0]:
                 max_w[0] = self._p.get_weights()[i]
                 max_w[1] = i
         x[max_w[1]] = random.randint(0, self._p.get_num_bags()-1) #aloca o maior peso a alguma bolsa aleatória
 
-    # Python code t get difference of two lists
+    # Faz a diferença entre duas listas
     def Diff(self, li1, li2):
         li_dif = [i for i in li1 + li2 if i not in li1 or i not in li2]
         return li_dif
