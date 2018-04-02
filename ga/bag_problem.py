@@ -122,12 +122,13 @@ class BagProblem:
 
     # Dado a lista de itens retorna a quantidade de itens deixados fora da alocação
     def left_items(self, items):
-        li=[]
+        li = []
         for i in range(len(items)):
             if items[i] == -1:
                 li.append(i)
         return li
 
+    # Printa a alocação nas bolsas
     def printBags(self, items):
         bags = self.BagsList(self.get_num_bags())
         outBag = []
@@ -141,7 +142,8 @@ class BagProblem:
             outBag.append(self.get_weights()[i])
 
         for i in range(len(bags)):
-            print('Bag {} = {} | Max Vol. = {} , Allocated = {}'.format(i + 1, bags[i],self.get_capacities()[i],sum(bags[i])))
+            print('Bag {} = {} | Max Vol. = {} , Allocated = {}'.format(i + 1, bags[i], self.get_capacities()[i],
+                                                                        sum(bags[i])))
         print('Items out of bags: {}'.format(outBag))
 
     def BagsList(self, size):
@@ -162,4 +164,3 @@ class BagProblem:
 
     def get_num_bags(self):
         return self._nb
-

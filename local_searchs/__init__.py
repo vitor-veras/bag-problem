@@ -8,16 +8,14 @@ from local_searchs.bag_problem import BagProblem
 import time
 import random
 
-def main():
 
-    #bagProblem = BagProblem(nBag=2, nItem=6).initState()
+def main():
+    # bagProblem = BagProblem(nBag=2, nItem=6).initState()
     bagProblem = BagProblem(nBag=3, nItem=30).initState()
     initialState = bagProblem
 
     Utils(initialState).printBags()
     values = [random.randint(100, 1000) for i in range(10)]
-
-
 
     for v in values:
         hc = HillClimbing(v, initialState)
@@ -26,7 +24,7 @@ def main():
         end = time.time() - init
 
         ut = Utils(final)
-        print("\n-------Hill Climbing (%s)-------"%(v))
+        print("\n-------Hill Climbing (%s)-------" % (v))
         ut.printBags()
         print("Timestamp : {}".format(end))
         print("----------------------------\n")
@@ -43,7 +41,6 @@ def main():
     ut.printBags()
     print("Timestamp : {}".format(end))
     print("----------------------------")
-
 
 
 if __name__ == '__main__':

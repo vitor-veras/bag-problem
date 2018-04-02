@@ -23,6 +23,65 @@ class GeneticAlgorithm:
             population.append(new_ind)
         return population
 
+    # Genetic algorithm:
+    #   Realiza o algoritimo genético.
+    #   Parâmetros:
+    #         population: população
+    #         ngen: número de gerações
+    #         p_mut: probabilidade de mutação
+    #         p_sel: porcentagem de elitismo
+    #         f_thres: limiar de fitness(previne estagnação)
+    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.5, p_sel=0.1):
+        n = 0
+        a_fitness = self.fitness(population)
+        while (n != ngen) and (max(a_fitness) != 1.0):
+
+            new_pop = []
+            selected = self.select(population, p_sel)
+            # new_pop recebe todos os indivíduos pertencentes ao elitismo
+            for i in range(len(selected)):
+                new_pop.append(population[selected[i]])
+
+            # Realiza uma diferença(conjuntos) entre duas listas
+            #   neste caso, retorna uma lista de tamanho (1-p_sel)*population
+            new_pop = self.Diff(population, new_pop)
+
+            # Realiza os operadores da seguinte forma:
+            #   (1) Seleciona dois indivíduos de new_pop(i,i+1)
+            #   (2) cross = o resultado da reprodução dos dois
+            #   (3) faz uma porcentagem randômica(p), caso ela seja <= que p_mut
+            #       realize a mutação nos filhos resultantes da reprodução
+            for i in range(0, len(new_pop), 2):
+                try:
+                    cross = self.op_crossover(new_pop[i], new_pop[i + 1])
+                    p = random.random()
+                    if p <= p_mut:
+                        self.mutate(cross[0])
+                        self.mutate(cross[1])
+                    new_pop[i] = cross[0]
+                    new_pop[i + 1] = cross[1]
+                except IndexError:
+                    continue
+            # Recoloca os indivíduos selecionados(elite) de volta ao new_pop
+            for i in range(len(selected)):
+                new_pop.append(population[selected[i]])
+            # Corrige os indivíduos inválidos
+            new_pop = self.correct(new_pop)
+            # A população recebe a nova geração
+            population = new_pop
+            # Recalcula-se o fitness
+            a_fitness = self.fitness(population)
+            n += 1
+
+        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=True)
+        print("Geração: ", n)
+        print("Populaçao: ", population)
+        print("Fitness da população: ", a_fitness)
+        print('#')
+        print("Melhor indivíduo: ", population[a_fitness[0][0]])
+        self._p.printBags(population[a_fitness[0][0]])
+        print("Fitness: ", a_fitness[0][1])
+
     # Corrige a população caso exista indivíduos inviáveis
     def correct(self, population):
         c = []
@@ -31,7 +90,7 @@ class GeneticAlgorithm:
         # c = (map(lambda x: self._p.correct(x), population))
         return c
 
-    # Retorna uma lista contendo o fitness de cada indivíduo
+    # Retorna uma lista contendo o fitness de cada indivíduo da população
     def fitness(self, population):
         # fit = 1 - [((T_ls)/(T_c))*((T_li)/(T_i))]
         aux = (list(map(lambda x: sum(self._p.left_space(x)) / sum((self._p.get_capacities())), population)))
@@ -39,7 +98,7 @@ class GeneticAlgorithm:
         fit = list(map(lambda x, y: 1 - (x * y), aux, aux2))
         return fit
 
-    # Imprime os pesos e capacidades (FIXO)
+    # Imprime os pesos e capacidades
     # imprime os indivíduos, seu peso atual e seu espaço livre
     def print_population(self):
         print("WEIGHTS: ", self._p.get_weights(), "CAPACITIES: ", self._p.get_capacities())
@@ -53,47 +112,9 @@ class GeneticAlgorithm:
     def get_population(self):
         return self._population
 
-
-    def genetic_algorithm(self, population, f_thres=None, ngen=500, p_mut=0.5, p_sel=0.1):
-        n = 0
-        a_fitness = self.fitness(population)
-        while (n != ngen) and (max(a_fitness) != 1.0):
-
-            new_pop = []
-            selected = self.select(population, p_sel)
-            for i in range(len(selected)):
-                new_pop.append(population[selected[i]])
-            new_pop = self.Diff(population, new_pop)
-
-            for i in range(0, len(new_pop), 2):
-                try:
-                    cross = self.op_crossover(new_pop[i], new_pop[i + 1])
-                    p = random.random()
-                    if p <= p_mut:
-                        self.mutate(cross[0])
-                        self.mutate(cross[1])
-                    new_pop[i] = cross[0]
-                    new_pop[i + 1] = cross[1]
-                except IndexError:
-                    continue
-            for i in range(len(selected)):
-                new_pop.append(population[selected[i]])
-            new_pop = self.correct(new_pop)
-            population = new_pop
-            a_fitness = self.fitness(population)
-            n += 1
-        a_fitness = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=True)
-
-        print("iteração: ",n)
-        print(population)
-        print("A_fit: ", a_fitness)
-        print('###########################################################################')
-        print("Melhor Indv: ", population[a_fitness[0][0]])
-        self._p.printBags(population[a_fitness[0][0]])
-        print("Fitness: ", a_fitness[0][1])
-
-    # Elitismo
-    #
+    # Elitismo:
+    #   aux é uma lista que ordena a população por fitness
+    #   retorna os primeiros id's desta lista
     def select(self, population, p_sel=0.1):
         sel = []
         aux = sorted(list(enumerate(self.fitness(population))), key=lambda tup: tup[1], reverse=False)
@@ -130,7 +151,7 @@ class GeneticAlgorithm:
             if self._p.get_weights()[i] < max_w[0]:
                 max_w[0] = self._p.get_weights()[i]
                 max_w[1] = i
-        x[max_w[1]] = random.randint(0, self._p.get_num_bags()-1) #aloca o maior peso a alguma bolsa aleatória
+        x[max_w[1]] = random.randint(0, self._p.get_num_bags() - 1)  # aloca o maior peso a alguma bolsa aleatória
 
     # Faz a diferença entre duas listas
     def Diff(self, li1, li2):

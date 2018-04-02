@@ -10,7 +10,6 @@ import time
 
 
 def main():
-
     # BAG PROBLEM PARAMS
     n_items = 30
     n_bags = 3
@@ -52,9 +51,7 @@ def main():
     """GENETIC ALGORITHM TESTS"""
     bp = BagProblem(n_items, n_bags, w, c)
     ga = GeneticAlgorithm(bp, n_ind)
-    print("POP INICIAL: ")
-    # ga.correct(ga.get_population())
-    ga.print_population()
+    print("GENETIC ALGORITHM: ")
     ga.genetic_algorithm(ga.get_population())
 
 

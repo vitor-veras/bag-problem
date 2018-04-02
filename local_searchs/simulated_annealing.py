@@ -6,6 +6,7 @@ from local_searchs.heuristic import Heuristic
 from local_searchs.bag_problem import BagProblem
 from math import exp
 
+
 # Algoritmo Simulated Annealing adaptado de : http://conteudo.icmc.usp.br/pessoas/sandra/G9_t2/annealing.htm
 
 class SimulatedAnnealing(object):
@@ -17,7 +18,7 @@ class SimulatedAnnealing(object):
                  maxSuc=70,
                  alpha=0.5644577,
                  startTemp=500,
-                 initialState= None,
+                 initialState=None,
                  finalTemp=0.005):
         self.iterate = iterate
         self.maxDis = maxDis
@@ -36,7 +37,7 @@ class SimulatedAnnealing(object):
             if deltaF <= 0:
                 currentState = newState
             else:
-                if exp(-deltaF/T0) > random.random():
+                if exp(-deltaF / T0) > random.random():
                     currentState = newState
 
             T0 = T0 * self.alpha
