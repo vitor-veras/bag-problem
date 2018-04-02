@@ -18,7 +18,7 @@ def main():
     c = [23, 29, 31, 37, 41, 43, 47]
     # GENETIC ALGORITHM PARAMS
     n_ind = 100
-    n_generations = 300
+    n_generations = 500
 
     """LOCAL SEARCHS TESTS(HC - SA)"""
     # bagProblem = BagProblem(vBag=[23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83],nBag=3, nItem=30).initState()

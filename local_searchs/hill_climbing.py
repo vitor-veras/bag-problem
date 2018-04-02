@@ -12,7 +12,7 @@ import copy
 class HillClimbing(object):
     def __init__(self, iterate=100, startState=None):
         self.iterate = iterate
-        self.startState = startState
+        self.startState = copy.deepcopy(startState)
 
     def hill_comum(self):
         currentState = self.startState
