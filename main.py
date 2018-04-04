@@ -8,7 +8,7 @@ from ga.bag_problem import BagProblem as bpGA
 from ga.genetic_algorithm import GeneticAlgorithm
 import time
 import random
-
+import copy
 
 def main():
 
@@ -18,6 +18,8 @@ def main():
 
     Utils(initialState).printBags()
     values = [random.randint(100, 1000) for i in range(10)]
+
+    print('\t\t\t\t\t\t\t\t\tHill Climbing start.')
 
     for v in values:
         hc = HillClimbing(v, initialState)
@@ -29,20 +31,24 @@ def main():
         print("\n-------Hill Climbing (%s)-------" % (v))
         ut.printBags()
         print("Timestamp : {}".format(end))
-        print("----------------------------\n")
+        print("----------------------------------------\n")
 
+    print('----------------------------------------------------------------------------------------------------------------')
+    print('\t\t\t\t\t\t\t\t\tSimulated Annealing start.')
 
-    print("-------Simulated Annealing-------")
-    sa = SimulatedAnnealing(initialState=initialState)
-    init = time.time()
-    final = sa.simulate()
-    end = time.time() - init
+    alpha = random.random()
+    for v in values:
+        print("-------Simulated Annealing({})-------".format(v))
+        sa = SimulatedAnnealing(initialState=initialState, iterate=v, alpha=alpha)
+        init = time.time()
+        final = sa.simulate()
+        end = time.time() - init
+        ut = Utils(final)
+        ut.printBags()
+        print("Timestamp : {}".format(end))
+        print("----------------------------------------------------------------")
 
-    ut = Utils(final)
-    ut.printBags()
-    print("Timestamp : {}".format(end))
-    print("----------------------------")
-
+    print('Alpha = {}'.format(alpha))
 
     """GENETIC ALGORITHM TESTS"""
 
@@ -59,10 +65,11 @@ def main():
 
     bp = bpGA(n_items, n_bags, w, c)
     ga = GeneticAlgorithm(bp, n_ind)
+    print(len(ga.get_population()))
     print("GENETIC ALGORITHM: ")
     for i in range(10):
-        ga.genetic_algorithm(ga.get_population(), n_generations, p_sel)
-        ga.genetic_algorithm(ga.get_population(),n_generations,0.2,p_sel)
+        ga.genetic_algorithm(copy.deepcopy(ga.get_population()), n_generations, p_sel)
+        ga.genetic_algorithm(copy.deepcopy(ga.get_population()),n_generations,0.2,p_sel)
 
 
 if __name__ == '__main__':

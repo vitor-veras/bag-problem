@@ -4,6 +4,8 @@
 
 import random
 import copy
+import sys
+from local_searchs.heuristic import Heuristic
 
 
 class BagProblem(object):
@@ -32,8 +34,18 @@ class BagProblem(object):
 
     def desalloc(self, state):
         newState = copy.deepcopy(state)
+        min_bag = sys.maxsize
+        index = -1
+
+        for i in range (len(newState[0])):
+            a_weight = Heuristic(newState).countInBag(i)
+
+            if a_weight < min_bag:
+                index = i
+                min_bag = a_weight
 
         for i in range(len(newState[1])):
-            newState[1][i][1] = len(newState[0])
+            if newState[1][i][1] == index:
+                newState[1][i][1] = len(newState[0])
 
         return newState

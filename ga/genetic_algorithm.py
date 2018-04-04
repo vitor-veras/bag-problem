@@ -30,12 +30,14 @@ class GeneticAlgorithm:
     #         p_mut: probabilidade de mutação
     #         p_sel: porcentagem de elitismo
     #         f_thres: limiar de fitness(previne estagnação)
-    def genetic_algorithm(self, population, ngen=500, p_mut=0.1, p_sel=0.1):
+    def genetic_algorithm(self, population , ngen=500, p_mut=0.1, p_sel=0.1):
         n = 0
         a_fitness = self.fitness(population)
         while (n != ngen) and (max(a_fitness) != 1.0):
 
             new_pop = []
+            mut = []
+
             selected = self.select(population, p_sel)
             # new_pop recebe todos os indivíduos pertencentes ao elitismo
             for i in range(len(selected)):
@@ -45,25 +47,31 @@ class GeneticAlgorithm:
             #   neste caso, retorna uma lista de tamanho (1-p_sel)*population
             new_pop = self.Diff(population, new_pop)
 
+            for i in range(int(len(population)*p_mut)):
+                mut.append(new_pop.pop())
+
+            #new_pop = self.Diff(new_pop, mut)
+
             # Realiza os operadores da seguinte forma:
             #   (1) Seleciona dois indivíduos de new_pop(i,i+1)
             #   (2) cross = o resultado da reprodução dos dois
-            #   (3) faz uma porcentagem randômica(p), caso ela seja <= que p_mut
-            #       realize a mutação nos filhos resultantes da reprodução
+
             for i in range(0, len(new_pop), 2):
                 try:
                     cross = self.op_crossover(new_pop[i], new_pop[i + 1])
-                    p = random.random()
-                    if p <= p_mut:
-                        self.mutate(cross[0])
-                        self.mutate(cross[1])
                     new_pop[i] = cross[0]
                     new_pop[i + 1] = cross[1]
                 except IndexError:
                     continue
+
+            for i in mut:
+                self.mutate(i)
+
             # Recoloca os indivíduos selecionados(elite) de volta ao new_pop
             for i in range(len(selected)):
                 new_pop.append(population[selected[i]])
+            for i in range(len(mut)):
+                new_pop.append(mut[i])
             # Corrige os indivíduos inválidos
             new_pop = self.correct(new_pop)
             # A população recebe a nova geração
@@ -78,11 +86,7 @@ class GeneticAlgorithm:
         print("Configuração: Tamanho da população: ",len(population)," Número máximo de gerações: ",ngen)
         print("Probabilidade de mutação: ",p_mut, " Porcentagem de elitismo: ",p_sel)
         print("Geração atual: ", n)
-        # print("Populaçao: ", population)
-        # print("Fitness da população: ", a_fitness)
-        # print('#')
-        # print("Melhor indivíduo: ", population[a_fitness[0][0]])
-        # self._p.printBags(population[a_fitness[0][0]])
+        self._p.printBags(population[a_fitness[0][0]])
         print("Fitness atual: ", a_fitness[0][1])
         print('---------------------------------------------------------------------------------------------')
 
@@ -96,7 +100,7 @@ class GeneticAlgorithm:
 
     # Retorna uma lista contendo o fitness de cada indivíduo da população
     def fitness(self, population):
-        # fit = 1 - [((T_ls)/(T_c))*((T_li)/(T_i))]
+        # fit = 1 - [((T_ls)/(T_c))*((T_li)/(T_i))] | T_ls = soma dos espaços vazios|T_c = Capacidade total|T_li = Total de itens de fora| T_i = Total de itens.
         aux = (list(map(lambda x: sum(self._p.left_space(x)) / sum((self._p.get_capacities())), population)))
         aux2 = (list(map(lambda x: len(self._p.left_items(x)) / self._p.get_num_items(), population)))
         fit = list(map(lambda x, y: 1 - (x * y), aux, aux2))

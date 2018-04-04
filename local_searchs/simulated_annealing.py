@@ -14,12 +14,12 @@ class SimulatedAnnealing(object):
     # maxSuc -> Numero maximo de sucessos por iteracao
     # alpha -> fator de reducao da temperatura
     def __init__(self, iterate=500,
-                 maxDis=100,
-                 maxSuc=70,
-                 alpha=0.5644577,
+                 maxDis=200,
+                 maxSuc=100,
+                 alpha=0.73,
                  startTemp=500,
                  initialState=None,
-                 finalTemp=0.005):
+                 finalTemp=0.000005):
         self.iterate = iterate
         self.maxDis = maxDis
         self.maxSuc = maxSuc
